@@ -24,6 +24,7 @@ export type Slot = {
   day: string
   start_time: string
   end_time: string
+  confidence: 'high' | 'low'
 }
 
 export type UserSlot = {
@@ -33,9 +34,24 @@ export type UserSlot = {
   festival_id: string
 }
 
+export type Profile = {
+  id: string
+  email: string | null
+  is_premium: boolean
+  created_at: string
+}
+
 export type SlotWithStage = Slot & {
   stage: Stage
   is_flagged: boolean
+}
+
+// Full bundle of data for one festival, fetched server-side for the app views.
+export type FestivalData = {
+  festival: Festival
+  stages: Stage[]
+  slots: SlotWithStage[]
+  days: string[]
 }
 
 export type ParsedLineup = {

@@ -1,66 +1,31 @@
-'use client'
+import Link from 'next/link'
+import { LoginForm } from '@/components/auth/login-form'
 
-import { FormEvent, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-
-export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState<string | null>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setIsSubmitting(true)
-    setMessage(null)
-
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
-
-    if (error) {
-      setMessage(error.message)
-      setIsSubmitting(false)
-      return
-    }
-
-    setMessage('Check your email for the magic link.')
-    setIsSubmitting(false)
-  }
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>
+}) {
+  const { error } = await searchParams
 
   return (
-    <main className='flex min-h-screen items-center justify-center px-6'>
-      <form
-        onSubmit={handleSubmit}
-        className='w-full max-w-sm space-y-4 rounded-lg border border-border bg-card p-6'
+    <main className='relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6'>
+      <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,214,0,0.12),_transparent_60%)]' />
+      <Link
+        href='/'
+        className='absolute left-6 top-6 font-heading text-2xl tracking-[0.18em] text-stagr-amber'
       >
-        <h1 className='font-heading text-4xl tracking-wide text-stagr-amber'>Sign in</h1>
-        <label htmlFor='email' className='block text-sm font-medium text-foreground'>
-          Email
-        </label>
-        <input
-          id='email'
-          name='email'
-          type='email'
-          autoComplete='email'
-          required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          className='min-h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-base text-foreground focus:outline-none focus:ring-2 focus:ring-ring'
-          placeholder='you@example.com'
-        />
-        <button
-          type='submit'
-          disabled={isSubmitting}
-          className='min-h-11 w-full rounded-md bg-primary px-4 py-2 text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50'
-        >
-          {isSubmitting ? 'Sending magic link...' : 'Send magic link'}
-        </button>
-        {message ? <p className='text-sm text-muted-foreground'>{message}</p> : null}
-      </form>
+        STAGR
+      </Link>
+      <div className='relative w-full max-w-sm'>
+        <div className='mb-8 text-center'>
+          <h1 className='font-heading text-5xl tracking-wide text-foreground'>Welcome back</h1>
+          <p className='mt-2 text-sm text-muted-foreground'>
+            Sign in to plan your festival and never miss a set.
+          </p>
+        </div>
+        <LoginForm initialError={error ?? null} />
+      </div>
     </main>
   )
 }
