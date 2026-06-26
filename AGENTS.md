@@ -35,7 +35,7 @@ The AI parse flow is the core differentiator. It must work excellently.
 | UI components | shadcn/ui — install components as needed |
 | Backend | Supabase (PostgreSQL + Auth + Storage + Edge Functions) |
 | Auth | Supabase Auth — magic link email + Google OAuth |
-| AI parse | Anthropic Claude API (claude-sonnet-4-20250514) |
+| AI parse | Anthropic Claude API (claude-sonnet-4-6 — the prior claude-sonnet-4-20250514 pin was retired) |
 | Image storage | Supabase Storage (lineup-images bucket) |
 | Hosting | Vercel |
 | Package manager | npm |
