@@ -11,9 +11,14 @@ const bebasNeue = Bebas_Neue({
   display: 'swap',
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://stagr.band'
+const siteDescription = 'Import festival lineups with AI, resolve clashes, and track your day live.'
+
 export const metadata: Metadata = {
-  title: 'Stagr — Festival Clashfinder',
-  description: 'Import festival lineups with AI, resolve clashes, and track your day live.',
+  metadataBase: new URL(siteUrl),
+  title: { default: 'Stagr — Festival Clashfinder', template: '%s · Stagr' },
+  description: siteDescription,
+  applicationName: 'Stagr',
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
@@ -23,6 +28,18 @@ export const metadata: Metadata = {
   icons: {
     icon: '/icon.svg',
     apple: '/icon.svg',
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'Stagr',
+    title: 'Stagr — Festival Clashfinder',
+    description: siteDescription,
+    url: '/',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Stagr — Festival Clashfinder',
+    description: siteDescription,
   },
 }
 
